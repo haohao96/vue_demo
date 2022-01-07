@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        
+    <meta charset="UTF-8" />
+        
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./vue_js/vue.global.js"></script>
+        
+    <title>Document</title>
+  </head>
+  <body>
+        <!-- <div id="provideDemo">
+        <my-a>
+             <my-b>
+                <my-c></my-c>
+            </my-b>
+        </my-a>
+        <my-a></my-a>
+    </div>
+    <script>
+        
+
+        const c={
+            inject:['user'],
+            created(){
+                alert(user)
+            },
+            template:`
+            <p>{{user}}</p >
+            `
+        }
+
+        const b={
+            components:{
+                'my-c':c
+            }
+        }
+        
+
+        
+
+        const app = Vue.createApp({
+            
+            provide:{
+                user:'pyh'
+            }
+        })
+
+        const a=app.component('my-a',{
+           
+           components:{
+               'my-b':b
+           },
+           provide:{
+               user:'pyh_provide'
+           },
+           inject:['user'],
+           template:`
+           <h1>{{user}}</h1>
+           `
+       })
+        app.mount("#provideDemo")
+    </script> -->
+
+        
+    <div id="component">
+              <my-a>         </my-a>         
+      <hr />
+              <my-b></my-b>
+
+            
+    </div>
+          
+    <script>
+      const myb = {
+        inject: ["user"],
+        template: `
+            <h1>b:{{user}}</h1>
+            `,
+      };
+      const mya = {
+        inject: ["user"],
+        template: `
+          <h1>{{user}}</h1>
+          <my-b></my-b>
+          `,
+        components: {
+          "my-b": myb,
+        },
+      };
+
+      const app = Vue.createApp({
+        components: {
+          "my-a": mya,
+        },
+        // 这种形式是非响应式的，即在provide中提供的数据如果改变，
+        // 那么所有子组件中inject这个数据的组件，不会更新这个数据，而是使用旧的数据。
+        // provide: {
+        //   user: "woqu ",
+        // },
+        
+        // 响应式的写法，但是试验好像没有响应
+        provide() {
+          return {
+            user: Vue.computed(()=>'piyihao'),
+          };
+        },
+      });
+      app.mount("#component");
+    </script>
+  </body>
+</html>

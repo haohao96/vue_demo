@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="./vue.global.js"></script>
+    <!-- <script src="https://unpkg.com/vue@next"></script> -->
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 自己复刻案例 -->
+    <div id="blog-posts-events-demo" class="demo">
+        <div :style="{fontSize:postFontSize+'em'}">
+            <blog-post 
+            v-for="post in posts"
+            :key="post.id"
+            :id="post.id"
+            :title="post.title"
+            @enlarge-text="postFontSize+=$event"></blog-post>
+            <hr>
+            <blog-post :title="mytitle"></blog-post>
+        </div>
+    </div>
+    <script>
+        const app = Vue.createApp({
+            data(){
+                return{
+                    posts:[
+                        {id:1,title:'i'},
+                        {id:2,title:'am'},
+                        {id:3,title:'pyh'},
+                    ],
+                    postFontSize:1,
+                    mytitle:'我叫皮一豪'
+                }
+            }
+        })
+        app.component('blog-post',{
+            props:['title','id'],
+            template:`
+                <div>
+                    <h4>{{title}}</h4>
+                    <p>{{id}}</p>
+                    <button @click="$emit('enlargeText',0.1)">
+                        enlarget text
+                    </button>
+                </div>
+            `
+        })
+        app.mount("#blog-posts-events-demo")
+    </script>
+    <!-- 官网案例 -->
+    
+        <!-- <div id="blog-posts-events-demo">
+        <div :style="{fontSize:postFontSize+'em'}">
+            <blog-post 
+            v-for="post in posts"
+            :key="post.id"
+            :mytitle="post.title"
+            @enlarge-text="postFontSize+=1"
+            >
+            </blog-post>
+        </div>
+    </div>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return{
+                    posts:[
+                        {id:1,title:'i'},
+                        {id:2,title:'am'},
+                        {id:3,title:'pyh'}
+                    ],
+                    postFontSize:1
+                }
+            }
+        })
+        app.component('blog-post',{
+            props:['mytitle'],
+            template:`
+                <div>
+                    <h4>{{mytitle}}</h4>
+                    <button @click="$emit('enlargeText')">
+                        enlarge text
+                    </button>
+                </div>
+            `
+        })
+        app.mount("#blog-posts-events-demo")
+    </script>  -->
+
+
+     <!-- <div id="blog-post-event-demo" class="div">
+        <div :style="{fontSize:postFontSize+'em'}">
+            <blog-post v-for="post in posts" :key="post.id" 
+            :title="post.title" @enlarge-text="postFontSize+=1"></blog-post>
+        </div>
+    </div>
+    <script>
+        const app = Vue.createApp({
+            data(){
+                return{
+                    postFontSize=1,
+                    posts:[{id:1,title:'i'},{id:2,title:'am'},{id:3,title:'pyh'}]
+                }
+            }
+        })
+
+        app.component('blog-post',{
+            props:['title'],
+            template:`   
+                <div >
+                    <h4>{{ title }}</h4>
+
+                    <button @click="$emit('enlargeText')">
+                        字体变大
+                    </button>   
+                </div>
+            `
+        })
+
+        app.mount("#blog-post-event-demo")
+    </script>  -->
+
+    
+
+    
+</body>
+</html>

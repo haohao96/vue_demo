@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <title> </title>
+  </head>
+
+  <body>
+    <div id="app">{{message}}</div>
+
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          message: "hello vue",
+        },
+      });
+    </script>
+
+    <div id="app-2">
+      <span v-bind:title="message"> 悬停 </span>
+    </div>
+    <script>
+      var app2 = new Vue({
+        el: "#app-2",
+        data: {
+          message: "页面加载于" + new Date().toLocaleString(),
+        },
+      });
+    </script>
+
+    <div id="app-3">
+      <p v-if="seen">现在看到我了哦</p>
+    </div>
+    <script>
+      var app3 = new Vue({
+        el: "#app-3",
+        data: {
+          seen: true,
+        },
+      });
+    </script>
+
+    <div id="app-4">
+      <ol>
+        <li v-for="todo in todos">{{todo.text}}</li>
+      </ol>
+    </div>
+    <script>
+      var app4 = new Vue({
+        el: "#app-4",
+        data: {
+          todos: [
+            { text: "好好学习" },
+            { text: "天天向上" },
+            { text: "美好生活" },
+          ],
+        },
+      });
+    </script>
+
+    <div id="app-5">
+      <p>{{ message }}</p>
+      <button v-on:click="reverseMes">反转</button>
+    </div>
+    <script>
+      var app5 = new Vue({
+        el: "#app-5",
+        data: {
+          message: "我 叫 皮 一 豪",
+        },
+        methods: {
+          reverseMes: function () {
+            this.message = this.message.split(" ").reverse().join(" ");
+          },
+        },
+      });
+    </script>
+
+    <div id="app-6">
+      <p>{{message}}</p>
+      <input v-model="message" />
+    </div>
+    <script>
+      var app6 = new Vue({
+        el: "#app-6",
+        data: {
+          message: "输入",
+        },
+      });
+    </script>
+
+    <div id="app-7">
+      <p>{{a}}</p>
+    </div>
+    <script>
+      var data = { a: 1 };
+      var app7 = new Vue({
+        el: "#app-7",
+        data: data,
+      });
+      app7.a = "6";
+    </script>
+
+    <script>
+      new Vue({
+        data: {
+          a: "钩子 创建init",
+        },
+        created: function () {
+          console.log("this.a is" + this.a);
+        },
+      });
+    </script>
+
+    <div id="watch">
+      <p>{{fullName}}</p>
+    </div>
+
+    <script>
+      var vm = new Vue({
+        el: "#watch",
+        data: {
+          firstName: "皮",
+          lastName: "一昊",
+          fullName: "皮一昊",
+        },
+        watch: {
+          firstName: function (val) {
+            this.fullName = val + this.lastName;
+          },
+          lastName: function (val) {
+            this.fullName = this.firstName + val;
+          },
+        },
+      });
+    </script>
+
+    <div id="computed">
+      <p>{{fullName}}</p>
+    </div>
+    <script>
+      var vm = new Vue({
+        el: "#computed",
+        data: {
+          firstName: "皮",
+          lastName: "一昊",
+        },
+        computed: {
+          fullName: function () {
+            return this.firstName + this.lastName;
+          },
+        },
+      });
+    </script>
+
+    <div id="counter">
+      Counter:{{counter}}
+    </div>
+    <script>
+      const Counter={
+        data()
+        {
+          return {counter:0}
+        },
+        mounted()
+        {
+          setInterval(()=>
+          {
+            this.counter++
+          },1000)
+        }
+      }
+      Vue.createApp(Counter).mount('#counter')
+    </script>
+
+    <div id="bind-attribute">
+      <span v-bind:title="mes">悬停几秒查看信息</span>
+    </div>
+    <script>
+      const AttributeBinding=
+      {
+        data()
+        {
+          return {mes:'你加载这个页面的时间是：'+new Date()}
+        }
+      }
+      Vue.createApp(AttributeBinding).mount('#bind-attribute')
+    </script>
+
+    <div id="time">
+      {{time}}
+    </div>
+    <script>
+      const Time=
+      {
+        data()
+        {
+          return {time:''+new Date()}
+        }
+      }
+      Vue.createApp(Time).mount('#time')
+    </script>
+
+
+<div id="blog-posts-events-demo" class="demo">
+  <div :style="{ fontSize: postFontSize + 'em' }">
+    <blog-post
+       v-for="post in posts"
+       :key="post.id"
+       :title="post.title"
+       @enlarge-text="postFontSize += 0.1"
+    ></blog-post>
+  </div>
+</div>
+
+<script>
+  const app2 = Vue.createApp({
+  data() {
+    return {
+      posts: [
+        { id: 1, title: 'My journey with Vue'},
+        { id: 2, title: 'Blogging with Vue'},
+        { id: 3, title: 'Why Vue is so fun'}
+      ],
+      postFontSize: 1
+    }
+  }
+})
+
+app2.component('blog-post', {
+  props: ['title'],
+  template: `
+    <div class="blog-post">
+      <h4>{{ title }}</h4>
+      <button @click="$emit('enlargeText')">
+        Enlarge text
+      </button>
+    </div>
+  `
+})
+
+app2.mount('#blog-posts-events-demo')
+</script>
+  </body>
+</html>

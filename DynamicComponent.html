@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./vue_js/vue.global.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="dynamicComponent">
+        <button
+        v-for="tab in tabs"
+        :key="tab"
+        @click="currentTab=tab"
+        >
+        {{tab}}
+    </button>
+    <!-- 加上keep-alive后，切换tab时，在home中做的操作会被缓存下来，
+    下次切换回home时，之前的操作还在 
+    这里特意在home中加了一个input说明这个特性，在input中随便输入，然后切换到index中
+    再切换home，发现之前输入的东西还在
+    如果没有keep-alive,则切回home时，重新创建了一个home tab组件，之前输入的东西自然就没有了-->
+    <keep-alive>
+        <component :is="getCurrentTabComp"></component>
+    </keep-alive>
+    </div>
+    <script>
+        const app = Vue.createApp({
+            data(){
+                return{
+                    currentTab:'home',
+                    tabs:['home','index']
+                }
+            },
+            computed:{
+                getCurrentTabComp()
+                {
+                    return 'tab-'+this.currentTab;
+                }
+            }
+        })
+        app.component('tab-home',{
+            template:`
+            <div>home tab</div>
+            <input type="text">
+            `
+        })
+        app.component('tab-index',{
+            template:`
+            <div>index tab</div>
+            `
+        })
+        app.mount("#dynamicComponent")
+    </script>
+</body>
+</html>

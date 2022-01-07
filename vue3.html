@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://unpkg.com/vue@next"></script>
+    <!-- <script src="../t.vue"></script> -->
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="helloVue" class="div">{{mes}}</div>
+    <div id="counter" class="div">counter:{{cnt}}</div>
+    <div id="reverse" class="div">
+      <p>{{mes}}</p>
+      <button v-on:click="reverseMessage">反转</button>
+    </div>
+    <div id="orderList" class="div">
+      <ol>
+        <li v-for="todo in todos">{{todo.text}}</li>
+      </ol>
+    </div>
+
+    <script></script>
+    <script>
+      Vue.createApp({
+        data() {
+          return { mes: "hello vue 我是皮一豪" };
+        },
+      }).mount("#helloVue");
+
+      Vue.createApp({
+        data() {
+          return { cnt: 0 };
+        },
+        mounted() {
+          setInterval(() => {
+            this.cnt++;
+          }, 1000);
+        },
+      }).mount("#counter");
+
+      Vue.createApp({
+        data() {
+          return { mes: "我 是 皮 一 昊" };
+        },
+        methods: {
+          reverseMessage() {
+            this.mes = this.mes.split(" ").reverse().join(" ");
+          },
+        },
+      }).mount("#reverse");
+
+      const ListRendering = {
+        data() {
+          return {
+            todos: [
+              { text: "Learn JavaScript" },
+              { text: "Learn Vue" },
+              { text: "Build something awesome" },
+            ],
+          };
+        },
+      };
+
+      Vue.createApp(ListRendering).mount("#orderList");
+    </script>
+
+    <div id="haveBook" class="div">
+      {{author.books.length>0?'Yes':'No'}} {{haveBookOrNot}}
+    </div>
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+            author: {
+              name: "皮一豪",
+              books: ["王阳明", "毛选"],
+            },
+          };
+        },
+        computed: {
+          haveBookOrNot() {
+            return this.author.books.length > 0 ? "Yes" : "No";
+          },
+        },
+      }).mount("#haveBook");
+    </script>
+
+    <div id="fullName" class="div">{{fullName}}</div>
+    <script>
+      const nameDemo = Vue.createApp({
+        data() {
+          return {
+            firstName: "皮",
+            lastName: "一昊",
+            fullName: "皮一昊",
+          };
+        },
+        watch: {
+          firstName(val) {
+            this.fullName = val + this.lastName;
+          },
+          lastName(val) {
+            this.fullName = this.firstName + val;
+          },
+        },
+      }).mount("#fullName");
+    </script>
+    <div id="computedFullName" class="div">{{fullName}}</div>
+    <script>
+      const computedFullName = Vue.createApp({
+        data() {
+          return { firstName: "皮", lastName: "一昊" };
+        },
+        computed: {
+          fullName() {
+            return this.firstName + this.lastName;
+          },
+        },
+      }).mount("#computedFullName");
+    </script>
+    <style>
+      .a {
+        background-color: red;
+      }
+      .b {
+        background-color: greenyellow;
+      }
+    </style>
+    <div id="c">
+      <span :class="{a:aflag}" class="align">绑定</span>
+    </div>
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+            aflag: true,
+            mes: {
+              aflag: false,
+              bflag: true,
+            },
+            computed: {
+              classObject() {
+                a: this.aflag;
+                b: this.bflag;
+              },
+            },
+          };
+        },
+      }).mount("#c");
+    </script>
+
+    <div id="condition">
+      <span v-if="seen">{{mes}}</span>
+    </div>
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+            mes: "can you see me?",
+            seen: true,
+          };
+        },
+      }).mount("#condition");
+    </script>
+    <div id="show"><span v-show="showFlag">v-show</span></div>
+    <script>
+      Vue.createApp({
+        data()
+        {
+          return {
+            showFlag:true
+          }
+        }
+      }).mount("#show")
+    </script>
+
+    <!-- 列表渲染 -->
+    
+      <ul id="array-rending">
+        <li v-for="item in items">
+          {{item.mes}}
+        </li>
+      </ul>
+    
+    <script>
+      Vue.createApp({
+        data()
+        {
+          return {
+            items:[{mes:'pi'},{mes:'yi'},{mes:'hao'}]
+          }
+        }
+      }).mount("#array-rending")
+    </script>
+
+<ul id="array-rendering2">
+  <li v-for="(item,index) in items">
+    {{index}}-{{ item.message }}
+  </li>
+  <li v-for="(value,key,index) in valueObject">
+    {{index}}-{{key}}:{{value}}
+  </li>
+  <br>
+  <li>computed:</li>
+  <li v-for="number in filtNumbers">
+    {{number}}
+  </li>
+  <br>
+  <li>methods:</li>
+  <li v-for="n in even(numbers)">
+    {{n}}
+  </li>
+</ul>
+<script>
+  const listRender= Vue.createApp({
+  data() {
+    return {
+      items: [{ message: 'Foo' }, { message: 'Bar' }],
+      numbers:[1,2,3,4,5,6],
+      valueObject:{
+        name:'皮一豪',
+        age:25
+      }
+    }
+  },
+  computed:
+  {
+    filtNumbers()
+    {
+      return this.numbers.filter(number=>number%2===0)
+    }
+  },
+  methods:
+  {
+    even(numbers)
+    {
+      return this.numbers.filter(number=>number%2===0)
+    }
+  }
+
+}).mount('#array-rendering2')
+</script>
+  <br><br>
+  <p>基础事件</p>
+  <div id="basicEvent">
+    <button @click.ctrl.exact.right="counter+=1">add</button>
+    <span>{{counter}} </span>
+  </div>
+  <script>
+    Vue.createApp({
+      data()
+      {
+        return{
+          counter:0
+        }
+      }
+    }).mount("#basicEvent")
+  </script>
+
+  <br>
+  <p>通过方法处理事件+多事件同时触发</p>
+  <div id="methodEvent">
+    <button @click="greet($event),b($event)">
+      Greet
+    </button>
+  </div>
+  <script>
+    Vue.createApp({
+      data()
+      {
+        return{
+          name:'皮一豪'
+        }
+      },
+      methods:
+      {
+        greet(event)
+        {
+          alert("hello "+this.name)
+          if(event)
+          {
+            alert(event.target.tagName)
+          }
+        },
+        b()
+        {
+          alert("b method")
+        }
+      }
+
+    }).mount("#methodEvent")
+  </script>
+
+  <br><br>
+  <div id="addMulti" class="div">
+    <textarea name=""  cols="30" rows="10" 
+    v-model="message" placeholder="写入多行值"></textarea>
+    <p>this message is:</p>
+    <p>{{message}}</p>
+  </div>
+  <script>
+    Vue.createApp({
+      data()
+      {
+        return {
+        message:''
+        }
+      }
+    }).mount("#addMulti")
+  </script>
+
+  <br><br>
+  <div id="checkbox">
+    <input type="checkbox" v-model="checked" id="checkboxId">
+    <label for="checkboxId">帅</label>
+  </div>
+  <script>
+    Vue.createApp({
+      data()
+      {
+        return{
+          checked:true
+        }
+      }
+    }).mount("#checkbox")
+  </script>
+
+  <!-- .stop修饰符 -->
+  <div id="stop">
+    <div @click.capture="test1" style="width: 60px;height: 60px;border: 6px;border-style: solid;">
+      test1
+      <div @click="test2" style="width: 60px;height: 20px;">stop test</div>
+    </div>
+  </div>
+  <script>
+    Vue.createApp({
+      methods: {
+        test1()
+        {
+          alert("test1")
+        },
+        test2()
+        {
+          alert("test2")
+        }
+      },
+    }).mount("#stop")
+  </script>
+
+  <!-- .prevent修饰符 -->
+  <div id="prevent">
+    <a href="http://www.baidu.com" @click.prevent="myMethod">去百度</a>
+  </div>
+  <script>
+    Vue.createApp({
+      methods:
+      {
+        myMethod()
+        {
+          alert("myMethod exec")
+        }
+      }
+    }).mount("#prevent")
+
+
+  </script>
+<br><br>
+  <div @scroll.passive="true" style="width: 100px;height: 100px;border: 2px;border-style: solid;"></div>
+<br>
+  <div id="keyup">
+    <input type="text" @keyup.alt.enter="clear" v-model="mes">
+    <p>mes:{{mes}}</p>
+  </div>
+  <script>
+    Vue.createApp({
+      data()
+        {
+          return {
+            mes:''
+          }
+        },
+      methods:{
+        clear()
+        {
+          this.mes=''
+        }
+      }
+    }).mount("#keyup")
+  </script>
+
+  <!-- 新创建一个组件 -->
+  <!-- <div id="component">
+    <blog-post title="我会创建组件了"></blog-post>
+    <blog-post title="深圳很暖和"></blog-post>
+  </div>
+  <script>
+    const app=Vue.createApp({})
+    app.component('blog-post',
+    {
+      props:['title'],
+      template:`<h1>{{title}}</h1>`
+    })
+    app.mount("#component")
+  </script> -->
+
+  <!-- 监听子组件事件 -->
+  <br>
+  <p>监听子组件事件</p>
+  <div id="blog-post-event-demo">
+    <div :style="{fontSize:postFontSize+'em'}">
+      <blog-post v-for="post in posts" 
+        :key="post.id" :title="post.title"
+        @enlarge-text="postFontSize+=1">
+      </blog-post>
+    </div>
+  </div>
+  <script>
+    const app2=Vue.createApp({
+      data() {
+        return {
+          posts:[{id:1,title:'监听'},{id:2,title:'子组件'}],
+          postFontSize=1
+        }
+      }
+    })
+    app2.component('blog-post',{
+      props:['title'],
+      template:`<div class="blog-post">
+        <h4>{{title}}</h4>
+        <button @click="$emit(enlargeText)">
+          Enlarge Text
+        </button>
+        </div>`
+    })
+
+    app2.mount("#blog-post-event-demo")
+  </script>
+
+
+
+  </body>
+</html>

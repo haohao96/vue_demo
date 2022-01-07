@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./vue_js/vue.global.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+      <div id="root">
+    <div id="directive-demo" v-focus>
+      <directive-comp>
+        <input />
+      </directive-comp>
+      <input type="text" v-focus />
+    </div>
+    <script>
+      const app = Vue.createApp({
+          
+        directives: {
+          focus: {
+            mounted(el) {
+              el.focus();
+            },
+          },
+        },
+      });
+      app.component("directive-comp", {
+        // 这是局部注册的写法，
+      });
+
+      //   app.directive("focus", {
+      //     mounted(el) {
+      //       el.focus();
+      //     },
+      //   });
+      app.mount("#root");
+    </script>
+
+    <!-- 官网代码 -->
+    <!-- <div id="simplest-directive-example" class="demo">
+      <input v-focus />
+    </div>
+    <script>
+      const app = Vue.createApp({});
+
+      app.directive("focus", {
+        mounted(el) {
+          el.focus();
+        },
+      });
+
+      app.mount("#simplest-directive-example");
+    </script> -->
+    <hr />
+    <p>动态指令demo</p>
+    <div id="dynamic-directive-demo">
+      <dynamic-directive>
+        <input type="range" min="0" max="666" v-model="pinPadding" />
+        <p v-pin:[direction]="pinPadding">
+          把我固定在距离{{direction}}页面 {{pinPadding}}px处
+        </p>
+      </dynamic-directive>
+    </div>
+    <script>
+      app.component("dynamic-directive", {
+        data() {
+          return {
+            direction: "right",
+            pinPadding: 66,
+          };
+        },
+        directives: {
+          pin: {
+            mounted(el, binding) {
+              el.style.position = "fixed";
+              const d = binding.arg || "top";
+              el.style[d] = binding.value + "px";
+            },
+            updated(el, binding) {
+              const d = binding.arg || "top";
+              el.style[d] = binding.value + "px";
+            },
+          },
+        },
+      });
+
+    //   app.mount("#dynamic-directive-demo");
+    </script>
+    </div>
+  </body>
+</html>

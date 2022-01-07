@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./vue_js/vue.global.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="scopeslot">
+      <scope-slot>
+        <template v-slot="{items:todos}"> <!-- items:todos是给items这个数据进行了重命名 -->
+          <div>
+            <ol>
+              <li v-for="item in todos">{{ item }}</li>
+            </ol>
+          </div>
+          <hr>
+        </template>
+        <template v-slot:namedslot="nameddata">
+            <div>
+                <p>namedSlot</p>
+                <p>{{nameddata}}</p> 
+            </div>
+            <hr>
+        </template>
+        <template v-slot="{name='pyh'}">
+          <div>
+            <p>{{name}}</p>
+          </div>
+        </template>
+      </scope-slot>
+    </div>
+    <script>
+      const app = Vue.createApp({});
+      app.component("scope-slot", {
+        data() {
+          return {
+            mes: ['a', "b", "c"],
+          };
+        },
+        template: `
+                <div>
+                    <slot :items="mes"></slot>
+                </div>
+                <div>
+                    <slot name="namedslot" :named="mes"></slot>
+                </div>
+            `,
+      });
+      app.mount("#scopeslot");
+    </script>
+  </body>
+</html>
